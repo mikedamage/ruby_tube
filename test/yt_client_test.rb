@@ -1,8 +1,5 @@
-require "test/unit"
-require "rubygems"
-require "hpricot"
-require "shoulda"
-require "../youtube.rb"
+require "test_helper"
+
 
 class YTClientTest < Test::Unit::TestCase
 	context "A YTClient instance" do
