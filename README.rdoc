@@ -1,6 +1,6 @@
 = ruby_tube
 
-Description goes here.
+RubyTube is a simple library built to interact with YouTube through ActiveRecord-like methods (like find, count, all, etc).
 
 == Copyright
 
