@@ -5,13 +5,13 @@ require File.join(File.dirname(__FILE__), "yt_rating.rb")
 
 class RubyTube < YTClient
 	
-	DEV_KEY = "AI39si6AUy_AzaCEU5TSUFeV7m2RozUtYW-0SEUR2DHh9hltQpZ2LrUYyNwF3R8eyl3VucUxJNCth4s4P2H8X24hyr2Els8uJg"
-	USERNAME = "frcmike"
-	PASSWORD = "k2130k"
+	# DEV_KEY = "AI39si6AUy_AzaCEU5TSUFeV7m2RozUtYW-0SEUR2DHh9hltQpZ2LrUYyNwF3R8eyl3VucUxJNCth4s4P2H8X24hyr2Els8uJg"
+	# 	USERNAME = "frcmike"
+	# 	PASSWORD = "k2130k"
 	
-	#def initialize(username, password, key, options={:refresh=>300})
-	def initialize
-		super(USERNAME, PASSWORD, DEV_KEY, {:refresh=>10})
+	def initialize(username, password, key, options={:refresh=>300})
+	#def initialize
+		super(username, password, key, options)
 	end
 	
 	def find(id)
