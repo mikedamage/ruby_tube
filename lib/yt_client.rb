@@ -12,15 +12,15 @@ class YTClient
 	base_uri "http://gdata.youtube.com/feeds/api"
 	format :plain
 	
-	DEV_KEY = "AI39si6AUy_AzaCEU5TSUFeV7m2RozUtYW-0SEUR2DHh9hltQpZ2LrUYyNwF3R8eyl3VucUxJNCth4s4P2H8X24hyr2Els8uJg"
 	UPLOAD_URI = "http://uploads.gdata.youtube.com/feeds/api/users/default/uploads"
 	
-	def initialize(username, password, options={:refresh=>300})
+	def initialize(username, password, key, options={:refresh=>300})
 		@username = username
 		@password = password
+		@developer_key = key
 		@client = GData::Client::YouTube.new
 		@client.source = "acer_timeline_contest"
-		@client.developer_key = DEV_KEY
+		@client.developer_key = @developer_key
 		@token = @client.clientlogin(@username, @password)
 		@options = options
 	end
@@ -41,10 +41,24 @@ class YTClient
 		(all/"openSearch:totalResults").text.to_i
 	end
 	
-	def find(id)
+	def check_video(id)
 		Hpricot(self.class.get("/users/#{@username}/uploads/#{id}", :headers => {
 			"Authorization" => "GoogleLogin auth=#{@token}",
-			"X-GData-Key" => "key=#{DEV_KEY}"
+			"X-GData-Key" => "key=#{@developer_key}"
+		}))
+	end
+	
+	def ratings(id)
+		Hpricot(self.class.get("/videos/#{id}/ratings", :headers => {
+			"Authorization" => "GoogleLogin auth=#{@token}",
+			"X-GData-Key" => "key=#{@developer_key}"
+		}))
+	end
+	
+	def comments(id)
+		Hpricot(self.class.get("/videos/#{id}/comments", :headers => {
+			"Authorization" => "GoogleLogin auth=#{@token}",
+			"X-GData-Key" => "key=#{@developer_key}"
 		}))
 	end
 	
