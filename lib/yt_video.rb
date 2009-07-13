@@ -21,11 +21,4 @@ class YTVideo
 		@thumbnails = data[:thumbnails]
 	end
 	
-	def ratings
-		xml = super.ratings(@id)
-	end
-	
-	def comments
-		xml = super.comments(@id)
-	end
 end

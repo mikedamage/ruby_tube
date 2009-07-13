@@ -28,38 +28,29 @@ class YTClient
 	def all
 		if @all_vids
 			if Time.parse((@all_vids/"updated").text) < (Time.now - @options[:refresh])
-				@all_vids = Hpricot(self.class.get("/videos", :query => {:author => @username}))
+				@all_vids = Hpricot(@client.get(self.class.base_uri + "/users/default/uploads").body)
 			else
 				return @all_vids
 			end
 		else
-			@all_vids = Hpricot(self.class.get("/videos", :query => {:author => @username}))
+			@all_vids = Hpricot(@client.get(self.class.base_uri + "/users/default/uploads").body)
 		end
 	end
 	
 	def count
-		(all/"openSearch:totalResults").text.to_i
+		(@all_vids/"entry").nitems
 	end
 	
 	def check_video(id)
-		Hpricot(self.class.get("/users/#{@username}/uploads/#{id}", :headers => {
-			"Authorization" => "GoogleLogin auth=#{@token}",
-			"X-GData-Key" => "key=#{@developer_key}"
-		}))
+		Hpricot(@client.get(self.class.base_uri + "/videos/#{id}"))
 	end
 	
 	def ratings(id)
-		Hpricot(self.class.get("/videos/#{id}/ratings", :headers => {
-			"Authorization" => "GoogleLogin auth=#{@token}",
-			"X-GData-Key" => "key=#{@developer_key}"
-		}))
+		Hpricot(@client.get(self.class.base_uri + "/videos/#{id}/ratings"))
 	end
 	
 	def comments(id)
-		Hpricot(self.class.get("/videos/#{id}/comments", :headers => {
-			"Authorization" => "GoogleLogin auth=#{@token}",
-			"X-GData-Key" => "key=#{@developer_key}"
-		}))
+		Hpricot(@client.get(self.class.base_uri + "/videos/#{id}/comments"))
 	end
 	
 	def upload(file, options={})

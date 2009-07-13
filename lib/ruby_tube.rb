@@ -18,4 +18,8 @@ class RubyTube < YTClient
 		
 	end
 	
+	def count
+		super.count
+	end
+	
 end
