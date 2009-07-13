@@ -46,7 +46,13 @@ class YTClient
 	end
 	
 	def ratings(id)
-		Hpricot(@client.get(self.class.base_uri + "/videos/#{id}/ratings").body)
+		response = Hpricot(@client.get(self.class.base_uri + "/videos/#{id}").body)
+		ratings = (response/"gd:rating")
+		if ratings.nitems > 0
+			return ratings
+		else
+			return nil
+		end
 	end
 	
 	def comments(id)

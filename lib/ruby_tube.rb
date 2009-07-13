@@ -1,6 +1,7 @@
 require File.join(File.dirname(__FILE__), "yt_client.rb")
 require File.join(File.dirname(__FILE__), "yt_video.rb")
 require File.join(File.dirname(__FILE__), "yt_comment.rb")
+require File.join(File.dirname(__FILE__), "yt_rating.rb")
 
 class RubyTube < YTClient
 	
@@ -77,7 +78,7 @@ class RubyTube < YTClient
 				:view_count => (entry/"yt:statistics").attr("viewCount"),
 				:favorite_count => (entry/"yt:statistics").attr("favoriteCount"),
 				:comments => comments((entry/"yt:videoid").text),
-				:ratings => nil
+				:ratings => ratings((entry/"yt:videoid").text)
 			})
 			videos << video
 		end
@@ -91,17 +92,33 @@ class RubyTube < YTClient
 	def comments(id)
 		xml = super
 		comments = Array.new
-		(xml/"entry").each do |entry|
-			comment = YTComment.new({
-				:title => (entry/"title").text,
-				:content => (entry/"content").text,
-				:author => (entry/"author").search("name").text,
-				:author_uri => (entry/"author").search("uri").text,
-				:video_uri => (entry/"link[@rel='related']").attr("href")
-			})
-			comments << comment
+		if (xml/"entry").nitems > 0
+			(xml/"entry").each do |entry|
+				comment = YTComment.new({
+					:title => (entry/"title").text,
+					:content => (entry/"content").text,
+					:author => (entry/"author").search("name").text,
+					:author_uri => (entry/"author").search("uri").text,
+					:video_uri => (entry/"link[@rel='related']").attr("href")
+				})
+				comments << comment
+			end
 		end
 		return comments
+	end
+	
+	def ratings(id)
+		xml = super
+		rating = nil
+		if xml
+			rating = YTRating.new({
+				:num_raters => xml.attr("numRaters").to_i,
+				:max => xml.attr("max").to_i,
+				:min => xml.attr("min").to_i,
+				:average => xml.attr("average").to_f
+			})
+		end
+		return rating
 	end
 	
 end

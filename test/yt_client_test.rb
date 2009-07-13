@@ -4,7 +4,7 @@ require "test_helper"
 class YTClientTest < Test::Unit::TestCase
 	context "A YTClient instance" do
 		setup do
-			@yt = YTClient.new("frcmike", "k2130k")
+			@yt = YTClient.new("frcmike", "k2130k", RubyTube::DEV_KEY)
 		end
 		
 		should "retrieve a ClientLogin token on instantiation" do
