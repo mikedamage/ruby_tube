@@ -15,7 +15,35 @@ class RubyTube < YTClient
 	
 	def find_all
 		all = super.all
-		
+		videos = Array.new
+		(all/"entry").each do |entry|
+			video = YTVideo.new({
+				:id => (entry/"yt:videoid").text,
+				:title => (entry/"title").text,
+				:description => (entry/"media:description").text,
+				:duration => (entry/"yt:duration").attr("seconds").to_i,
+				:player_uri => (entry/"link[@rel='alternate']").attr("href"),
+				:ratings_uri => (entry/"link[@rel$='ratings']").attr("href"),
+				:comments_uri => (entry/"gd:comments").search("gd:feedlink").attr("href"),
+				:comment_count => (entry/"gd:comments").search("gd:feedlink").attr("countHint").to_i,
+				:published_at => Time.parse((entry/"published").text),
+				:updated_at => Time.parse((entry/"updated").text),
+				:thumbnails => {
+					:small => {
+						:url => (entry/"media:thumbnail[@url$='default.jpg']").attr("url"),
+						:width => 120,
+						:height => 90
+					},
+					:large => {
+						:url => (entry/"media:thumbnail[@url$='hqdefault.jpg]").attr("url"),
+						:width => 480,
+						:height => 360
+					}
+				},
+				:view_count => (entry/"yt:statistics").attr("viewCount"),
+				:favorite_count => (entry/"yt:statistics").attr("favoriteCount")
+			})
+		end
 	end
 	
 	def count

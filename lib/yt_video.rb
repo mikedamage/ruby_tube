@@ -4,7 +4,7 @@ require "httparty"
 
 class YTVideo
 	include HTTParty
-	attr_reader :id, :title, :description, :duration, :player_uri, :thumbnails, :published_at, :updated_at, :ratings_uri, :comments_uri, :views 
+	attr_reader :id, :title, :description, :duration, :player_uri, :thumbnails, :published_at, :updated_at, :ratings_uri, :comments_uri, :view_count, :favorite_count, :comment_count
 	
 	format :plain
 	
@@ -19,6 +19,9 @@ class YTVideo
 		@published_at = data[:published_at]
 		@updated_at = data[:updated_at]
 		@thumbnails = data[:thumbnails]
+		@view_count = data[:view_count]
+		@favorite_count = data[:favorite_count]
+		@comment_count = data[:comment_count]
 	end
 	
 end
