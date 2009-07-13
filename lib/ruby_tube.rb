@@ -1,5 +1,6 @@
 require File.join(File.dirname(__FILE__), "yt_client.rb")
 require File.join(File.dirname(__FILE__), "yt_video.rb")
+require File.join(File.dirname(__FILE__), "yt_comment.rb")
 
 class RubyTube < YTClient
 	
@@ -14,7 +15,7 @@ class RubyTube < YTClient
 	end
 	
 	def find_all
-		all = super.all
+		@all = all()
 		videos = Array.new
 		(all/"entry").each do |entry|
 			video = YTVideo.new({
@@ -41,13 +42,33 @@ class RubyTube < YTClient
 					}
 				},
 				:view_count => (entry/"yt:statistics").attr("viewCount"),
-				:favorite_count => (entry/"yt:statistics").attr("favoriteCount")
+				:favorite_count => (entry/"yt:statistics").attr("favoriteCount"),
+				:comments => comments((entry/"yt:videoid").text),
+				:ratings => nil
 			})
+			videos << video
 		end
+		return videos
 	end
 	
 	def count
-		super.count
+		super
+	end
+	
+	def comments(id)
+		xml = super
+		comments = Array.new
+		(xml/"entry").each do |entry|
+			comment = YTComment.new({
+				:title => (entry/"title").text,
+				:content => (entry/"content").text,
+				:author => (entry/"author").search("name").text,
+				:author_uri => (entry/"author").search("uri").text,
+				:video_uri => (entry/"link[@rel='related']").attr("href")
+			})
+			comments << comment
+		end
+		return comments
 	end
 	
 end

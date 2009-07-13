@@ -1,12 +1,6 @@
-require "rubygems"
-require "hpricot"
-require "httparty"
-
 class YTVideo
-	include HTTParty
-	attr_reader :id, :title, :description, :duration, :player_uri, :thumbnails, :published_at, :updated_at, :ratings_uri, :comments_uri, :view_count, :favorite_count, :comment_count
-	
-	format :plain
+
+	attr_reader :id, :title, :description, :duration, :player_uri, :thumbnails, :published_at, :updated_at, :ratings_uri, :comments_uri, :view_count, :favorite_count, :comment_count, :ratings, :comments
 	
 	def initialize(data)
 		@id = data[:id]
@@ -22,6 +16,8 @@ class YTVideo
 		@view_count = data[:view_count]
 		@favorite_count = data[:favorite_count]
 		@comment_count = data[:comment_count]
+		@ratings = data[:ratings]
+		@comments = data[:comments]
 	end
 	
 end

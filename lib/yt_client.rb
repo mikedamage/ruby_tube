@@ -42,15 +42,15 @@ class YTClient
 	end
 	
 	def check_video(id)
-		Hpricot(@client.get(self.class.base_uri + "/videos/#{id}"))
+		Hpricot(@client.get(self.class.base_uri + "/videos/#{id}").body)
 	end
 	
 	def ratings(id)
-		Hpricot(@client.get(self.class.base_uri + "/videos/#{id}/ratings"))
+		Hpricot(@client.get(self.class.base_uri + "/videos/#{id}/ratings").body)
 	end
 	
 	def comments(id)
-		Hpricot(@client.get(self.class.base_uri + "/videos/#{id}/comments"))
+		Hpricot(@client.get(self.class.base_uri + "/videos/#{id}/comments").body)
 	end
 	
 	def upload(file, options={})

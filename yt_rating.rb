@@ -1,0 +1,3 @@
+class YTRating
+	
+end
