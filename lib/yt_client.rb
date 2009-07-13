@@ -103,6 +103,14 @@ REQDATA
 		return response
 	end
 	
+	def update(id, xml)
+		response = @client.put(self.class.base_uri + "/users/default/uploads/#{id}", xml)
+	end
+	
+	def delete(id)
+		response = @client.delete(self.class.base_uri + "/users/default/uploads/#{id}")
+	end
+	
 	private
 	def read_file(file)
 		contents = File.open(file, "r") {|io| io.read }

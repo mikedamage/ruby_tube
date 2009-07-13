@@ -21,6 +21,7 @@ class RubyTube < YTClient
 			:id => (entry/"yt:videoid").text,
 			:title => (entry/"title").text,
 			:description => (entry/"media:description").text,
+			:keywords => (entry/"media:keywords").text,
 			:duration => (entry/"yt:duration").attr("seconds").to_i,
 			:player_uri => (entry/"link[@rel='alternate']").attr("href"),
 			:ratings_uri => (entry/"link[@rel$='ratings']").attr("href"),
@@ -56,6 +57,7 @@ class RubyTube < YTClient
 				:id => (entry/"yt:videoid").text,
 				:title => (entry/"title").text,
 				:description => (entry/"media:description").text,
+				:keywords => (entry/"media:keywords").text,
 				:duration => (entry/"yt:duration").attr("seconds").to_i,
 				:player_uri => (entry/"link[@rel='alternate']").attr("href"),
 				:ratings_uri => (entry/"link[@rel$='ratings']").attr("href"),
@@ -119,6 +121,26 @@ class RubyTube < YTClient
 			})
 		end
 		return rating
+	end
+	
+	def update_video(id, options)
+		video = find(id)
+		if options[:title]
+			video.title = options[:title]
+		end
+		if options[:description]
+			video.description = options[:description]
+		end
+		if options[:keywords]
+			video.keywords = options[:keywords]
+		end
+		entry = video.to_xml
+		response = update(video.id, entry)
+		if response.status_code == 200
+			return video
+		else
+			return false
+		end
 	end
 	
 end
