@@ -91,7 +91,7 @@ REQDATA
 		http = Net::HTTP.new(upload_uri.host)
 		headers = {
 			'GData-Version' => "2",
-			'X-GData-Key' => "key=#{DEV_KEY}",
+			'X-GData-Key' => "key=#{@developer_key}",
 			'Slug' => File.basename(file),
 			'Authorization' => "GoogleLogin auth=#{@token}",
 			'Content-Type' => 'multipart/related; boundary="bbe873dc"',

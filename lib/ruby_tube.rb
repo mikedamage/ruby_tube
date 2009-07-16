@@ -143,4 +143,8 @@ class RubyTube < YTClient
 		end
 	end
 	
+	def upload_video(filename, options={})
+		response = upload(filename, options)
+	end
+	
 end
