@@ -17,6 +17,7 @@ class RubyTube < YTClient
 	def find(id)
 		xml = check_video(id)
 		entry = (xml/"entry")
+		status = (xml/"yt:state").empty? ? "ok" : (xml/"yt:state").attr("name")
 		video = YTVideo.new({
 			:id => (entry/"yt:videoid").text,
 			:title => (entry/"title").text,
@@ -44,7 +45,8 @@ class RubyTube < YTClient
 			:view_count => (entry/"yt:statistics").attr("viewCount"),
 			:favorite_count => (entry/"yt:statistics").attr("favoriteCount"),
 			:comments => comments((entry/"yt:videoid").text),
-			:ratings => nil
+			:ratings => :ratings => ratings((entry/"yt:videoid").text),
+			:status => status
 		})
 		return video
 	end
@@ -53,6 +55,7 @@ class RubyTube < YTClient
 		@all = all()
 		videos = Array.new
 		(all/"entry").each do |entry|
+			status = (entry/"yt:state").empty? ? "ok" : (entry/"yt:state").attr("name")
 			video = YTVideo.new({
 				:id => (entry/"yt:videoid").text,
 				:title => (entry/"title").text,
@@ -80,7 +83,8 @@ class RubyTube < YTClient
 				:view_count => (entry/"yt:statistics").attr("viewCount"),
 				:favorite_count => (entry/"yt:statistics").attr("favoriteCount"),
 				:comments => comments((entry/"yt:videoid").text),
-				:ratings => ratings((entry/"yt:videoid").text)
+				:ratings => ratings((entry/"yt:videoid").text),
+				:status => status
 			})
 			videos << video
 		end
@@ -145,6 +149,15 @@ class RubyTube < YTClient
 	
 	def upload_video(filename, options={})
 		response = upload(filename, options)
+	end
+	
+	def delete_video(id)
+		response = delete(id)
+		if response.status_code == 200
+			return true
+		else
+			return false
+		end
 	end
 	
 end

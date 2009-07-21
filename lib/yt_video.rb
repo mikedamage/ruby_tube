@@ -1,6 +1,6 @@
 class YTVideo
 
-	attr_reader :id, :duration, :player_uri, :thumbnails, :published_at, :updated_at, :ratings_uri, :comments_uri, :view_count, :favorite_count, :comment_count, :ratings, :comments
+	attr_reader :id, :duration, :player_uri, :thumbnails, :published_at, :updated_at, :ratings_uri, :comments_uri, :view_count, :favorite_count, :comment_count, :ratings, :comments, :status
 	attr_accessor :title, :description, :keywords
 	
 	def initialize(data)
@@ -20,6 +20,7 @@ class YTVideo
 		@comment_count = data[:comment_count]
 		@ratings = data[:ratings]
 		@comments = data[:comments]
+		@status = data[:status]
 	end
 	
 	def to_xml
