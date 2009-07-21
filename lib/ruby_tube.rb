@@ -45,7 +45,7 @@ class RubyTube < YTClient
 			:view_count => (entry/"yt:statistics").attr("viewCount"),
 			:favorite_count => (entry/"yt:statistics").attr("favoriteCount"),
 			:comments => comments((entry/"yt:videoid").text),
-			:ratings => :ratings => ratings((entry/"yt:videoid").text),
+			:ratings => ratings((entry/"yt:videoid").text),
 			:status => status
 		})
 		return video
