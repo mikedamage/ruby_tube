@@ -42,8 +42,8 @@ class RubyTube < YTClient
 					:height => 360
 				}
 			},
-			:view_count => (entry/"yt:statistics").attr("viewCount"),
-			:favorite_count => (entry/"yt:statistics").attr("favoriteCount"),
+			:view_count => (entry/"yt:statistics").empty? ? 0 : (entry/"yt:statistics").attr("viewCount"),
+			:favorite_count => (entry/"yt:statistics").empty? ? 0 : (entry/"yt:statistics").attr("favoriteCount"),
 			:comments => comments((entry/"yt:videoid").text),
 			:ratings => ratings((entry/"yt:videoid").text),
 			:status => status
@@ -80,8 +80,8 @@ class RubyTube < YTClient
 						:height => 360
 					}
 				},
-				:view_count => (entry/"yt:statistics").attr("viewCount"),
-				:favorite_count => (entry/"yt:statistics").attr("favoriteCount"),
+				:view_count => (entry/"yt:statistics").empty? ? 0 : (entry/"yt:statistics").attr("viewCount"),
+				:favorite_count => (entry/"yt:statistics").empty? ? 0 : (entry/"yt:statistics").attr("favoriteCount"),
 				:comments => comments((entry/"yt:videoid").text),
 				:ratings => ratings((entry/"yt:videoid").text),
 				:status => status
