@@ -1,3 +1,4 @@
+require "ostruct"
 require File.join(File.dirname(__FILE__), "yt_client.rb")
 require File.join(File.dirname(__FILE__), "yt_video.rb")
 require File.join(File.dirname(__FILE__), "yt_comment.rb")
@@ -46,7 +47,8 @@ class RubyTube < YTClient
 			:favorite_count => (entry/"yt:statistics").empty? ? 0 : (entry/"yt:statistics").attr("favoriteCount"),
 			:comments => comments((entry/"yt:videoid").text),
 			:ratings => ratings((entry/"yt:videoid").text),
-			:status => status
+			:status => status,
+			:thumbnails => process_thumbnail_urls(entry)
 		})
 		return video
 	end
@@ -84,7 +86,8 @@ class RubyTube < YTClient
 				:favorite_count => (entry/"yt:statistics").empty? ? 0 : (entry/"yt:statistics").attr("favoriteCount"),
 				:comments => comments((entry/"yt:videoid").text),
 				:ratings => ratings((entry/"yt:videoid").text),
-				:status => status
+				:status => status,
+				:thumbnails => process_thumbnail_urls(entry)
 			})
 			videos << video
 		end
@@ -159,5 +162,11 @@ class RubyTube < YTClient
 			return false
 		end
 	end
+	
+	private
+		def process_thumbnail_urls(hpricot)
+			thumbs = (hpricot/"media:thumbnail")
+			OpenStruct.new {:big => thumbs.last, :small => thumbs.first}
+		end
 	
 end

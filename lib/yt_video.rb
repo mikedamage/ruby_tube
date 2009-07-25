@@ -21,6 +21,7 @@ class YTVideo
 		@ratings = data[:ratings]
 		@comments = data[:comments]
 		@status = data[:status]
+		@thumbnails = data[:thumbnails]
 	end
 	
 	def to_xml
