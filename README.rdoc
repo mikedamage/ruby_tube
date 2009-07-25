@@ -2,6 +2,10 @@
 
 RubyTube is a simple library built to interact with YouTube through ActiveRecord-like methods (like find, count, all, etc).
 
+It's far from polished, and not all its methods are AR-like. It does provide a relatively simple interface for uploading videos to YouTube and retrieving info on the videos you've uploaded.
+
+Yet another gem I don't expect anyone to actually use - I just built it because I needed basic YouTube functionality for a Rails app I'm working on.
+
 == Copyright
 
 Copyright (c) 2009 Mike Green. See LICENSE for details.
