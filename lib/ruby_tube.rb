@@ -161,7 +161,7 @@ class RubyTube < YTClient
 	private
 		def process_thumbnail_urls(hpricot)
 			thumbs = (hpricot/"media:thumbnail")
-			OpenStruct.new({:big => thumbs.last, :small => thumbs.first})
+			OpenStruct.new({:big => thumbs.last.attr("url"), :small => thumbs.first.attr("url")})
 		end
 	
 end
