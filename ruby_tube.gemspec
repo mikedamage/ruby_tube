@@ -38,7 +38,7 @@ Gem::Specification.new do |s|
   s.rdoc_options = ["--charset=UTF-8"]
   s.require_paths = ["lib"]
   s.rubygems_version = %q{1.3.4}
-  s.summary = %q{Custom Ruby library for working with YouTube videos, for the Acer Timeline contest project}
+  s.summary = %q{Simple Ruby library for uploading and finding YouTube videos.}
   s.test_files = [
     "test/ruby_tube_test.rb",
      "test/test_helper.rb",
