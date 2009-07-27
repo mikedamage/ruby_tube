@@ -2,7 +2,7 @@
 
 Gem::Specification.new do |s|
   s.name = %q{ruby_tube}
-  s.version = "0.2.4"
+  s.version = "0.3.0"
 	
   s.required_rubygems_version = Gem::Requirement.new(">= 0") if s.respond_to? :required_rubygems_version=
 
@@ -25,6 +25,7 @@ Gem::Specification.new do |s|
      "Rakefile",
      "VERSION",
      "lib/ruby_tube.rb",
+		 "lib/no_auth_client.rb",
      "lib/yt_client.rb",
      "lib/yt_comment.rb",
      "lib/yt_rating.rb",
