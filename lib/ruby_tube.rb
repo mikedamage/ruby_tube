@@ -1,4 +1,3 @@
-require "ostruct"
 require File.join(File.dirname(__FILE__), "yt_client.rb")
 require File.join(File.dirname(__FILE__), "yt_video.rb")
 require File.join(File.dirname(__FILE__), "yt_comment.rb")
