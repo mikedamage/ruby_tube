@@ -4,7 +4,7 @@ class RubyTubeNoAuth
 		@client = GData::Client::YouTube.new
 		@client.source = "RubyTube"
 		if dev_key
-			@client.developer_key(dev_key)
+			@client.developer_key = dev_key
 		end
 	end
 	
