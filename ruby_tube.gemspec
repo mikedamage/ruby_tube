@@ -25,7 +25,7 @@ Gem::Specification.new do |s|
      "Rakefile",
      "VERSION",
      "lib/ruby_tube.rb",
-		 "lib/no_auth_client.rb",
+		 "lib/ruby_tube_no_auth.rb",
      "lib/yt_client.rb",
      "lib/yt_comment.rb",
      "lib/yt_rating.rb",

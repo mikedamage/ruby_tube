@@ -1,4 +1,4 @@
-class NoAuthClient
+class RubyTubeNoAuth
 	
 	def initialize(dev_key="")
 		@client = GData::Client::YouTube.new
