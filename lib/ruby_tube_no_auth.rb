@@ -52,6 +52,16 @@ class RubyTubeNoAuth
 		comments
 	end
 	
+	def ratings(id)
+		response = Hpricot.XML(@client.get(self.class.base_uri + "/videos/#{id}").body)
+		ratings = (response/"gd:rating")
+		if ratings.nitems > 0
+			return ratings
+		else
+			return nil
+		end
+	end
+	
 	private
 		def process_thumbnail_urls(hpricot)
 			thumbs = (hpricot/"media:thumbnail")
