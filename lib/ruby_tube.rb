@@ -26,18 +26,6 @@ class RubyTube < YTClient
 			:comment_count => (entry/"gd:comments").search("gd:feedlink").attr("countHint").to_i,
 			:published_at => Time.parse((entry/"published").text),
 			:updated_at => Time.parse((entry/"updated").text),
-			:thumbnails => {
-				:small => {
-					:url => (entry/"media:thumbnail[@url$='default.jpg']").attr("url"),
-					:width => 120,
-					:height => 90
-				},
-				:large => {
-					:url => (entry/"media:thumbnail[@url$='hqdefault.jpg]").attr("url"),
-					:width => 480,
-					:height => 360
-				}
-			},
 			:view_count => (entry/"yt:statistics").empty? ? 0 : (entry/"yt:statistics").attr("viewCount"),
 			:favorite_count => (entry/"yt:statistics").empty? ? 0 : (entry/"yt:statistics").attr("favoriteCount"),
 			:comments => comments((entry/"yt:videoid").text),
@@ -65,18 +53,6 @@ class RubyTube < YTClient
 				:comment_count => (entry/"gd:comments").search("gd:feedlink").attr("countHint").to_i,
 				:published_at => Time.parse((entry/"published").text),
 				:updated_at => Time.parse((entry/"updated").text),
-				:thumbnails => {
-					:small => {
-						:url => (entry/"media:thumbnail[@url$='default.jpg']").attr("url"),
-						:width => 120,
-						:height => 90
-					},
-					:large => {
-						:url => (entry/"media:thumbnail[@url$='hqdefault.jpg]").attr("url"),
-						:width => 480,
-						:height => 360
-					}
-				},
 				:view_count => (entry/"yt:statistics").empty? ? 0 : (entry/"yt:statistics").attr("viewCount"),
 				:favorite_count => (entry/"yt:statistics").empty? ? 0 : (entry/"yt:statistics").attr("favoriteCount"),
 				:comments => comments((entry/"yt:videoid").text),
