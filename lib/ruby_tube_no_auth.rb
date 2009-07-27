@@ -1,4 +1,5 @@
 class RubyTubeNoAuth
+	attr_accessor :client
 	
 	def initialize(dev_key="")
 		@client = GData::Client::YouTube.new
@@ -11,6 +12,7 @@ class RubyTubeNoAuth
 	def find(id)
 		res = @client.get("http://gdata.youtube.com/feeds/api/videos/#{id}")
 		xml = Hpricot.XML(res.body)
+		entry = xml.at("entry")
 		vid = YTVideo.new({
 			:id => (entry/"yt:videoid").text,
 			:title => (entry/"title").text,
@@ -53,7 +55,7 @@ class RubyTubeNoAuth
 	end
 	
 	def ratings(id)
-		response = Hpricot.XML(@client.get(self.class.base_uri + "/videos/#{id}").body)
+		response = Hpricot.XML(@client.get("http://gdata.youtube.com/feeds/api/videos/#{id}").body)
 		ratings = (response/"gd:rating")
 		if ratings.nitems > 0
 			return ratings
