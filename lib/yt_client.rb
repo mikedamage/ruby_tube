@@ -28,12 +28,12 @@ class YTClient
 	def all
 		if @all_vids
 			if Time.parse((@all_vids/"updated").text) < (Time.now - @options[:refresh])
-				@all_vids = Hpricot(@client.get(self.class.base_uri + "/users/default/uploads").body)
+				@all_vids = Hpricot.XML(@client.get(self.class.base_uri + "/users/default/uploads").body)
 			else
 				return @all_vids
 			end
 		else
-			@all_vids = Hpricot(@client.get(self.class.base_uri + "/users/default/uploads").body)
+			@all_vids = Hpricot.XML(@client.get(self.class.base_uri + "/users/default/uploads").body)
 		end
 	end
 	
@@ -42,11 +42,11 @@ class YTClient
 	end
 	
 	def check_video(id)
-		Hpricot(@client.get(self.class.base_uri + "/videos/#{id}").body)
+		Hpricot.XML(@client.get(self.class.base_uri + "/videos/#{id}").body)
 	end
 	
 	def ratings(id)
-		response = Hpricot(@client.get(self.class.base_uri + "/videos/#{id}").body)
+		response = Hpricot.XML(@client.get(self.class.base_uri + "/videos/#{id}").body)
 		ratings = (response/"gd:rating")
 		if ratings.nitems > 0
 			return ratings
@@ -56,7 +56,7 @@ class YTClient
 	end
 	
 	def comments(id)
-		Hpricot(@client.get(self.class.base_uri + "/videos/#{id}/comments").body)
+		Hpricot.XML(@client.get(self.class.base_uri + "/videos/#{id}/comments").body)
 	end
 	
 	def upload(file, options={})
@@ -99,7 +99,7 @@ REQDATA
 			'Connection' => 'close'
 		}
 		res = http.post(upload_uri.path, request_data, headers)
-		response = {:code => res.code, :body => Hpricot(res.body)}
+		response = {:code => res.code, :body => Hpricot.XML(res.body)}
 		return response
 	end
 	

@@ -2,6 +2,7 @@ require File.join(File.dirname(__FILE__), "yt_client.rb")
 require File.join(File.dirname(__FILE__), "yt_video.rb")
 require File.join(File.dirname(__FILE__), "yt_comment.rb")
 require File.join(File.dirname(__FILE__), "yt_rating.rb")
+require File.join(File.dirname(__FILE__), "no_auth_client.rb")
 
 class RubyTube < YTClient
 	
