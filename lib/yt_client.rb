@@ -89,6 +89,7 @@ Content-Transfer-Encoding: binary
 --bbe873dc
 REQDATA
 		http = Net::HTTP.new(upload_uri.host)
+		http.read_timeout = 6000
 		headers = {
 			'GData-Version' => "2",
 			'X-GData-Key' => "key=#{@developer_key}",
