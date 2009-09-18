@@ -5,10 +5,13 @@ begin
   require 'jeweler'
   Jeweler::Tasks.new do |gem|
     gem.name = "ruby_tube"
-    gem.summary = %Q{TODO}
+    gem.summary = %Q{Simple Ruby library for uploading and finding YouTube videos.}
     gem.email = "mike.is.green@gmail.com"
     gem.homepage = "http://github.com/mikedamage/ruby_tube"
     gem.authors = ["Mike Green"]
+		gem.add_dependency("gdata", ">= 1.1.0")
+		gem.add_dependency("httparty", ">= 0.4.3")
+		gem.add_dependency("hpricot", ">= 0.8.1")
     # gem is a Gem::Specification... see http://www.rubygems.org/read/chapter/20 for additional settings
   end
 
