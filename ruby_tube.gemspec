@@ -5,11 +5,11 @@
 
 Gem::Specification.new do |s|
   s.name = %q{ruby_tube}
-  s.version = "0.3.3"
+  s.version = "0.3.4"
 
   s.required_rubygems_version = Gem::Requirement.new(">= 0") if s.respond_to? :required_rubygems_version=
   s.authors = ["Mike Green"]
-  s.date = %q{2009-09-18}
+  s.date = %q{2009-09-20}
   s.email = %q{mike.is.green@gmail.com}
   s.extra_rdoc_files = [
     "LICENSE",
@@ -31,6 +31,7 @@ Gem::Specification.new do |s|
      "ruby_tube.gemspec",
      "test/josh_walking.mp4",
      "test/maddie.mp4",
+     "test/rt_no_auth_test.rb",
      "test/ruby_tube_test.rb",
      "test/test_helper.rb",
      "test/yt_client_test.rb"
@@ -41,7 +42,8 @@ Gem::Specification.new do |s|
   s.rubygems_version = %q{1.3.5}
   s.summary = %q{Simple Ruby library for uploading and finding YouTube videos.}
   s.test_files = [
-    "test/ruby_tube_test.rb",
+    "test/rt_no_auth_test.rb",
+     "test/ruby_tube_test.rb",
      "test/test_helper.rb",
      "test/yt_client_test.rb"
   ]
