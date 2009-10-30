@@ -62,10 +62,8 @@ class YTClient
 	def upload(file, options={})
 		upload_uri = URI.parse(UPLOAD_URI)
 		binary_data = read_file(file)
-		request_data = <<-REQDATA
---bbe873dc
-Content-Type: application/atom+xml; charset=utf-8
-
+		keywords = normalize_keywords(options[:keywords])
+		entry_xml = %{
 <?xml version="1.0"?>
 <entry xmlns="http://www.w3.org/2005/Atom"
 	xmlns:media="http://search.yahoo.com/mrss/"
@@ -75,19 +73,23 @@ Content-Type: application/atom+xml; charset=utf-8
 		<media:description type="plain">
 			#{options[:description]}
 		</media:description>
-		<media:category scheme="http://gdata.youtube.com/schemas/2007/categories.cat">
-			People
-		</media:category>
-		<media:keywords>#{options[:keywords]}</media:keywords>
+		<media:category scheme="http://gdata.youtube.com/schemas/2007/categories.cat">People</media:category>
+		<media:keywords>#{keywords}</media:keywords>
 	</media:group>
 </entry>
+		}
+		request_data = %{
+--bbe873dc
+Content-Type: application/atom+xml; charset=UTF-8
+
+#{entry_xml}
 --bbe873dc
 Content-Type: #{options[:content_type]}
 Content-Transfer-Encoding: binary
 
 #{binary_data}
---bbe873dc
-REQDATA
+--bbe873dc--
+}
 		http = Net::HTTP.new(upload_uri.host)
 		http.read_timeout = 6000
 		headers = {
@@ -96,11 +98,43 @@ REQDATA
 			'Slug' => File.basename(file),
 			'Authorization' => "GoogleLogin auth=#{@token}",
 			'Content-Type' => 'multipart/related; boundary="bbe873dc"',
-			'Content-Length' => binary_data.length.to_s,
+			'Content-Length' => request_data.length.to_s,
 			'Connection' => 'close'
 		}
 		res = http.post(upload_uri.path, request_data, headers)
 		response = {:code => res.code, :body => Hpricot.XML(res.body)}
+		return response
+	end
+	
+	def get_upload_token(options={})
+		post_uri = URI.parse("http://gdata.youtube.com/action/GetUploadToken")
+		keywords = normalize_keywords(options[:keywords])
+		entry_xml = %{
+<?xml version="1.0"?>
+<entry xmlns="http://www.w3.org/2005/Atom"
+	xmlns:media="http://search.yahoo.com/mrss/"
+	xmlns:yt="http://gdata.youtube.com/schemas/2007">
+	<media:group>
+		<media:title type="plain">#{options[:title]}</media:title>
+		<media:description type="plain">
+			#{options[:description]}
+		</media:description>
+		<media:category scheme="http://gdata.youtube.com/schemas/2007/categories.cat">People</media:category>
+		<media:keywords>#{keywords}</media:keywords>
+	</media:group>
+</entry>
+		}
+		http = Net::HTTP.new(post_uri.host)
+		http.read_timeout = 20
+		headers = {
+			'Authorization' => "GoogleLogin auth=#{@token}",
+			'GData-Version' => '2',
+			'X-GData-Key' => "key=#{@developer_key}",
+			'Content-Type' => "application/atom+xml; charset=UTF-8",
+			'Content-Length' => entry.xml.length
+		}
+		post = http.post(post_uri.path, entry_xml, headers)
+		response = {:code => post.code, :body => Hpricot.XML(post.body)}
 		return response
 	end
 	
@@ -116,5 +150,11 @@ REQDATA
 	def read_file(file)
 		contents = File.open(file, "r") {|io| io.read }
 		return contents
+	end
+	
+	def normalize_keywords(str)
+		keywords = str.split(",")
+		keywords.map! {|kw| kw.strip }
+		return keywords.join(', ')
 	end
 end
