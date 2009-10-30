@@ -63,8 +63,7 @@ class YTClient
 		upload_uri = URI.parse(UPLOAD_URI)
 		binary_data = read_file(file)
 		keywords = normalize_keywords(options[:keywords])
-		entry_xml = %{
-<?xml version="1.0"?>
+		entry_xml = %{<?xml version="1.0"?>
 <entry xmlns="http://www.w3.org/2005/Atom"
 	xmlns:media="http://search.yahoo.com/mrss/"
 	xmlns:yt="http://gdata.youtube.com/schemas/2007">
@@ -78,18 +77,16 @@ class YTClient
 	</media:group>
 </entry>
 		}
-		request_data = %{
---bbe873dc
+		request_data = %{--bbe873dc\r
 Content-Type: application/atom+xml; charset=UTF-8
 
-#{entry_xml}
---bbe873dc
+#{entry_xml}\r
+--bbe873dc\r
 Content-Type: #{options[:content_type]}
 Content-Transfer-Encoding: binary
 
-#{binary_data}
---bbe873dc--
-}
+#{binary_data}\r
+--bbe873dc--\r\n}
 		http = Net::HTTP.new(upload_uri.host)
 		http.read_timeout = 6000
 		headers = {
