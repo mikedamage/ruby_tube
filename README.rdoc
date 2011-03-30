@@ -1,3 +1,12 @@
+= This library is no longer maintained!
+
+I built this library as glue code between a Rails application and the GData gem, but now it is hopelessly out of date. I cannot provide support, so please do not ask me for any.
+
+Here are some links you may find helpful (don't say uncle Mikey never did nothin' for ya):
+
+GData Gem Documentation:: http://gdata-ruby-util.googlecode.com/hg/doc/index.html?r=1.1.2
+GData Gem README File:: http://code.google.com/p/gdata-ruby-util/source/browse/README
+
 = ruby_tube
 
 RubyTube is a simple library built to interact with YouTube through ActiveRecord-like methods (like find, count, all, etc).
